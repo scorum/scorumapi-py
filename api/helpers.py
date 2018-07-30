@@ -45,7 +45,7 @@ def get_all_posts(url):
     while stop is not True:
         r = api.get_discussions_by_created(url, query)
 
-        if len(posts) != 0 and query["start_author"] == posts[-1]["author"] and query["start_permlink"] == posts[-1]["permlink"]:
+        if len(posts) != 0 and query["start_author"] == r[-1]["author"] and query["start_permlink"] == r[-1]["permlink"]:
             stop = True
 
         if len(posts) == 0:

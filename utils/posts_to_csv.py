@@ -20,9 +20,9 @@ def main():
 
     posts = helpers.get_all_posts(url)
 
-    save_to_csv(posts, ["author",
-                        "permlink",
-                        "depth"],
-                "posts.csv")
+    save_to_csv(posts, [
+        "author",
+        "permlink"
+    ], "posts.csv")
 
     print("done.")
