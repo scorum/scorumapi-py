@@ -1,6 +1,6 @@
 import requests
 import json
-
+import time
 
 methods = {
     "get_dynamic_global_properties": "database_api",
@@ -62,7 +62,7 @@ def get_curl_cli(url, api, method, args):
     return "curl --data '{payload}' {url}".format(payload=json.dumps(payload), url=url)
 
 
-def call(url, api, method, args):
+def call(url, api, method, args, retries=5):
     if api is "" or api is None:
         api = get_api_name(method)
         if api is "" or api is None:
@@ -72,7 +72,13 @@ def call(url, api, method, args):
 
     print(payload)
 
-    r = requests.post(url, json=payload)
+    while retries:
+        try:
+            r = requests.post(url, json=payload)
+            retries = 0
+        except:
+            print("error during request")
+            time.sleep(0.5)
 
     try:
         response = json.loads(r.text)
