@@ -7,7 +7,21 @@ methods = {
     "get_account_count": "database_api",
     "lookup_account_names": "database_api",
     "lookup_accounts": "database_api",
+
+    "get_trending_tags": "tags_api",
+    "get_tags_used_by_author": "tags_api",
+    "get_tags_by_category": "tags_api",
+    "get_discussions_by_trending": "tags_api",
     "get_discussions_by_created": "tags_api",
+    "get_discussions_by_hot": "tags_api",
+    "get_discussions_by_author": "tags_api",
+    "get_content": "tags_api",
+    "get_comments": "tags_api",
+
+    "get_stats_for_time": "blockchain_statistics_api",
+    "get_stats_for_interval": "blockchain_statistics_api",
+    "get_lifetime_stats": "blockchain_statistics_api",
+
     "get_chain_capital": "chain_api"}
 
 
@@ -17,15 +31,6 @@ def get_api_name(method):
         return api
     except:
         return None
-
-
-def call(url, method, args):
-    api = get_api_name(method)
-
-    if api is None:
-        return None
-
-    return call(url, method, args)
 
 
 def is_json(myjson):
