@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name='scorumapi',
     version='0.0.1',
-    packages=['api'],
+    packages=['api', 'utils'],
 
     entry_points={
         'console_scripts': [
