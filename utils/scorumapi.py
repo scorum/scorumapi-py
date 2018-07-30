@@ -34,7 +34,7 @@ def main():
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument("-v", dest='verbose', default=False, action='store_true', help='')
     parser.add_argument("-s", dest='secure', default=False, action='store_true', help='')
-    parser.add_argument('--host', dest='host', action='store', default='127.0.0.1:8090', help='')
+    parser.add_argument('--host', dest='host', action='store', default='', help='')
     parser.add_argument('--api', dest='api', action='store', default='', help='')
     parser.add_argument('--method', dest='method', action='store', default='', help='')
     parser.add_argument('--args', dest='args', nargs='*', action='store', default=[], help='')
@@ -48,6 +48,10 @@ def main():
     if opt.api is "" and opt.method is "":
         opt.api = "database_api"
         opt.method = "get_dynamic_global_properties"
+
+    if opt.host is "":
+        opt.host = "prodnet.scorum.com"
+        opt.secure = True
 
     if opt.secure:
         protocol = "https://"
