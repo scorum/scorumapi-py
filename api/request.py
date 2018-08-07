@@ -33,24 +33,12 @@ def get_api_name(method):
         return None
 
 
-def is_json(myjson):
-    try:
-        json_object = json.loads(str(myjson))
-    except ValueError:
-        return False
-    return True
-
-
 def to_payload(api, method, args):
     data = dict()
 
     data["id"] = "0"
     data["jsonrpc"] = "2.0"
     data["method"] = "call"
-
-    for i, value in enumerate(args):
-        if is_json(value):
-             args[i] = json.loads(value)
 
     data["params"] = [api, method, args]
 
@@ -75,7 +63,7 @@ def call(url, api, method, args, retries=5):
 
     payload = to_payload(api, method, args)
 
-    print(payload)
+    # print(payload)
 
     while retries:
         try:

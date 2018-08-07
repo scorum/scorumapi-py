@@ -30,6 +30,17 @@ def setup_logger(verbose=False):
     root.addHandler(ch)
 
 
+def process_args(args):
+    if len(args) == 1:
+        if isinstance(args[0], str):
+            try:
+                args[0] = json.loads(args[0])
+            except ValueError:
+                pass
+
+    return args
+
+
 def main():
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument("-v", dest='verbose', default=False, action='store_true', help='')
@@ -39,7 +50,7 @@ def main():
     parser.add_argument('--method', dest='method', action='store', default='', help='')
     parser.add_argument('--args', dest='args', nargs='*', action='store', default=[], help='')
 
-    parser.add_argument('--no-color', dest='nocolors', action='store', default=False, help='')
+    parser.add_argument('--no-color', dest='nocolors', action='store_true', default=False, help='')
 
     opt = parser.parse_args()
 
@@ -60,11 +71,13 @@ def main():
 
     url = protocol + opt.host + "/rpc"
 
+    args = process_args(opt.args)
+
     logging.debug(url)
 
-    logging.debug(api.get_curl_cli(url, opt.api, opt.method, opt.args))
+    logging.debug(api.get_curl_cli(url, opt.api, opt.method, args))
 
-    response = api.call(url, opt.api, opt.method, opt.args)
+    response = api.call(url, opt.api, opt.method, args)
 
     if response is not None:
         formatted_json = json.dumps(response, indent=4, sort_keys=True)

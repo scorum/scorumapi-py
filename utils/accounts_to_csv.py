@@ -1,6 +1,5 @@
 from api import helpers
 
-
 def save_to_csv(accounts, keys, filename):
     with open(filename, "w") as f:
         for k in keys:
@@ -28,5 +27,4 @@ def main():
                            "post_count",
                            "comment_count"],
                 "accounts.csv")
-
     print("done.")

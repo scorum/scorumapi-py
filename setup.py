@@ -9,7 +9,8 @@ setup(
         'console_scripts': [
             'accounts_to_csv = utils.accounts_to_csv:main',
             'posts_to_csv = utils.posts_to_csv:main',
-            'scorumapi = utils.scorumapi:main'
+            'scorumapi = utils.scorumapi:main',
+            'elastic = utils.elastic:main',
           ]
       },
 )
