@@ -10,7 +10,9 @@ from api import api
 
 
 URL_ELASTIC = "blockchain-dnt-vm-a-1.scorum.com:9200"
-URL_RPC = "http://blockchain-dnt-vm-a-2.scorum.com:8001/rpc"
+#URL_ELASTIC = "h2-de.scorum.com:9200"
+#URL_RPC = "http://rpc5-mainnet-weu-v2.scorum.com:8001/rpc"
+URL_RPC = "http://127.0.0.1:8021/rpc"
 # URL_RPC = "https://prodnet.scorum.com/rpc"
 
 
@@ -48,12 +50,12 @@ def to_comment(c):
 
 def elastic_push(account):
     es = Elasticsearch(URL_ELASTIC, maxsize=25)
-    res = es.index(index="scorum", doc_type='accounts', id=account["id"], body=to_account(account))
+    res = es.index(index="accounts", doc_type='accounts', id=account["id"], body=to_account(account))
 
 
 def elastic_push_comment(comment):
     es = Elasticsearch(URL_ELASTIC, maxsize=25)
-    res = es.index(index="scorum2", doc_type='comments', id=comment["id"], body=to_comment(comment))
+    res = es.index(index="comments", doc_type='comments', id=comment["id"], body=to_comment(comment))
 
 
 def elastic_posts(rpc_url, elastic_url):
@@ -95,7 +97,7 @@ def main():
     parser.add_argument("-v", dest='verbose', default=False, action='store_true', help='')
     parser.add_argument('--elastic', dest='elastic', action='store', default=URL_ELASTIC, help='')
     parser.add_argument('--rpc', dest='rpc', action='store', default=URL_RPC, help='')
-    parser.add_argument('--jobs', dest='jobs', nargs='*', action='store', default=[], help='')
+    parser.add_argument('-j,--jobs', dest='jobs', nargs='*', action='store', default=[], help='')
 
     opt = parser.parse_args()
 

@@ -1,23 +1,21 @@
 [[source]]
-
 verify_ssl = true
 url = "https://pypi.org/simple"
 name = "pypi"
 
-
 [dev-packages]
 
-
-
 [requires]
-
 python_version = "3.5"
 
-
 [packages]
-
 pygments = "*"
 requests = "*"
 elasticsearch = "*"
-"progressbar2" = "*"
+progressbar2 = "*"
 pytest = "*"
+influxdb = "*"
+asyncio-nats-client = "*"
+aiohttp = "*"
+uvloop = "*"
+events = "*"

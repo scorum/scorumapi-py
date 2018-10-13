@@ -1,9 +1,10 @@
 from distutils.core import setup
 
+
 setup(
     name='scorumapi',
     version='0.0.1',
-    packages=['api', 'utils'],
+    packages=['api', 'utils', 'metrics'],
 
     entry_points={
         'console_scripts': [

@@ -1,4 +1,5 @@
 from api import helpers
+from metrics import timeit
 
 
 def save_to_csv(data, keys, filename):
@@ -15,10 +16,14 @@ def save_to_csv(data, keys, filename):
             f.write("\n")
 
 
-def main():
-    url = "https://prodnet.scorum.com/rpc"
+@timeit
+def posts_to_csv():
+    # url = "https://prodnet.scorum.com/rpc"
+    url = "http://127.0.0.1:8021"
 
     posts = helpers.get_all_posts(url)
+
+    print(len(posts))
 
     save_to_csv(posts, [
         "author",
@@ -26,3 +31,11 @@ def main():
     ], "posts.csv")
 
     print("done.")
+
+
+def main():
+    posts_to_csv()
+
+
+if __name__ == "__main__":
+    posts_to_csv()

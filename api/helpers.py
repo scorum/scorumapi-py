@@ -43,7 +43,7 @@ def get_all_account_names(url):
 
 def get_all_account_objects(url):
     all_account_names = get_all_account_names(url)
-    r = api.lookup_account_names(url, [all_account_names])
+    r = api.lookup_account_names(url, all_account_names)
 
     assert len(r) == api.get_account_count(url)
 

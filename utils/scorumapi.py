@@ -77,6 +77,22 @@ def main():
 
     logging.debug(api.get_curl_cli(url, opt.api, opt.method, args))
 
+    args_transformed = []
+
+    for a in args:
+        try:
+            v = int(a)
+            args_transformed.append(v)
+        except:
+            args_transformed.append(a)
+
+    args = args_transformed
+
+    ll = ["lookup_account_names", "get_accounts", "get_witnesses"]
+
+    if opt.method in ll:
+        args = [args]
+
     response = api.call(url, opt.api, opt.method, args)
 
     if response is not None:
