@@ -10,7 +10,7 @@ def scan_accounts(url, callback, limit=100):
 
         accounts = r if len(accounts) == 0 else r[1:]
 
-        objects = api.lookup_account_names(url, [accounts])
+        objects = api.lookup_account_names(url, accounts)
 
         callback(objects)
 
