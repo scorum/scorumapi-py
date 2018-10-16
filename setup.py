@@ -12,6 +12,7 @@ setup(
             'posts_to_csv = utils.posts_to_csv:main',
             'scorumapi = utils.scorumapi:main',
             'elastic = utils.elastic:main',
+            'mong = utils.mongo:main',
           ]
       },
 )

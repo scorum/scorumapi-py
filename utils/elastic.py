@@ -1,6 +1,6 @@
 import argparse
 import time
-import os
+import json
 import multiprocessing as mp
 from elasticsearch import Elasticsearch
 from progressbar import ProgressBar
@@ -16,15 +16,49 @@ URL_RPC = "http://127.0.0.1:8021/rpc"
 # URL_RPC = "https://prodnet.scorum.com/rpc"
 
 
+asset_fields = ("author_payout_scr_value",
+                "author_payout_sp_value",
+                "beneficiary_payout_scr_value",
+                "beneficiary_payout_sp_value",
+                "curator_payout_scr_value",
+                "curator_payout_sp_value",
+                "from_children_payout_scr_value",
+                "from_children_payout_sp_value",
+                "to_parent_payout_scr_value",
+                "to_parent_payout_sp_value",
+                "total_payout_scr_value",
+                "total_payout_sp_value",
+                "max_accepted_payout",
+                "promoted",
+                "pending_payout_scr",
+                "pending_payout_sp")
+
+int_fields = ("body_length",
+              "children",
+              "abs_rshares",
+              "net_rshares",
+              "net_votes",
+              "children_abs_rshares",
+              "total_vote_weight",
+              "vote_rshares",
+              "depth",
+              "id",
+              "root_comment")
+
+
 def asset_to_float(value):
     if isinstance(value, str):
-        index = str(value).find(" SP")
+        if value[-2:] == "SP" or value[-3:] == "SCR":
+            index = str(value).find(" SP")
 
-        if index == -1:
-            index = str(value).find(" SCR")
+            if index == -1:
+                index = str(value).find(" SCR")
 
-        if index > 0:
-            return float(value[:index])
+            if index > 0:
+                try:
+                    return float(value[:index])
+                except:
+                    return value
 
     return value
 
@@ -43,7 +77,10 @@ def to_account(a):
 
 def to_comment(c):
     for key, value in c.items():
-        c[key] = asset_to_float(value)
+        if key in asset_fields:
+            c[key] = asset_to_float(value)
+        elif key in int_fields:
+            c[key] = int(value)
 
     return c
 
@@ -54,8 +91,14 @@ def elastic_push(account):
 
 
 def elastic_push_comment(comment):
-    es = Elasticsearch(URL_ELASTIC, maxsize=25)
-    res = es.index(index="comments", doc_type='comments', id=comment["id"], body=to_comment(comment))
+    try:
+        es = Elasticsearch(URL_ELASTIC, maxsize=25)
+        res = es.index(index="comments", doc_type='comments', id=comment["id"], body=to_comment(comment))
+    except Exception as e:
+        print("---------------")
+        print(json.dumps(comment))
+        print(e)
+        print("---------------")
 
 
 def elastic_posts(rpc_url, elastic_url):
@@ -106,3 +149,9 @@ def main():
 
     if "accounts" in opt.jobs:
         elastic_accounts(opt.rpc, opt.elastic)
+
+
+def test_xxx():
+    ss = "0.00000 SP"
+
+    assert ss[-2:] == "SP"

@@ -13,6 +13,7 @@ def get_result(txt):
 
     return data["result"]
 
+
 async def get_blocks_history(url, f, limit):
     start = f + limit
     return await acall(url, "blockchain_history_api", "get_blocks_history", [start, limit])
